@@ -1,6 +1,8 @@
 import React from 'react'
 
-const Review = ({user,review,rate}) => {
+const Review = ({id,user,review,rate,initDelete}) => {
+
+
   return (
     <div
         style={{
@@ -10,9 +12,14 @@ const Review = ({user,review,rate}) => {
             backgroundColor: 'lightgray'
         }}
     >
-        <h4>{user}</h4>
-        <p>{review}</p>
-        <p>{rate}</p>
+        <div>
+            <h4>{user}</h4>
+            <p>{review}</p>
+            <p>{rate}</p>
+        </div>
+        <div style={{cursor:'pointer'}} onClick={()=>initDelete(id)}>
+            <h4>x</h4>
+        </div>
     </div>
   )
 }

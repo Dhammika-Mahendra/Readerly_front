@@ -3,6 +3,7 @@ import API_ENDPOINTS from '../constants/endpoint';
 import { useLocation } from 'react-router-dom';
 import Review from '../comp/review/Review';
 import ReviewForm from '../comp/review/ReviewForm';
+import Confirm from '../comp/review/Confirm';
 
 const BookReview = () => {
     const location = useLocation();
@@ -15,6 +16,10 @@ const BookReview = () => {
 
     //Review form================================
     const [display, setDisplay] = useState(false);
+
+    //Delete review==============================
+    const [deleteId, setDeleteId] = useState("");
+    const [deleteConfirmDisplay, setDeleteConfirmDisplay] = useState(false);
   
     useEffect(() => {
       const apiUrl = API_ENDPOINTS.GET_REVIEWS_BY_BOOK_ID+`/${state}`;
@@ -36,6 +41,12 @@ const BookReview = () => {
   
       fetchData();
     }, []);
+
+    //review deletetion-------------------------
+    const initReviewDelete = (id) => {
+        setDeleteId(id);
+        setDeleteConfirmDisplay(true);
+    }
 
     if (loading) {
         return <div>Loading...</div>;
@@ -64,8 +75,10 @@ const BookReview = () => {
         {display?<ReviewForm bookId={state} setDisplay={setDisplay}></ReviewForm>:''}
 
         {data.map((review) => (
-            <Review key={review.id} user={review.user} review={review.review} rate={review.rate}/>
+            <Review key={review.id} id={review.id} user={review.user} review={review.review} rate={review.rate} initDelete={initReviewDelete}/>
         ))}
+
+        {deleteConfirmDisplay?<Confirm id={deleteId} setDeleteConfirmDisplay={setDeleteConfirmDisplay}></Confirm>:''}
     </div>
   )
 }
