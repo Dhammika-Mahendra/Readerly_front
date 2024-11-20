@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import Book from '../comp/Book';
-import API_ENDPOINTS from '../constants/endpoint'
-import { useNavigate } from 'react-router-dom';
+import API_ENDPOINTS from '../constants/endpoint';
+import { useLocation } from 'react-router-dom';
+import Review from '../comp/review/Review';
 
-const Home = () => {
+const BookReview = () => {
+    const location = useLocation();
+    const { state } = location;
 
-    const navigate = useNavigate();
-
-    const handleClick = (data) => {
-      navigate('/review', { state: data }); 
-    };
-  
-    
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
   
     useEffect(() => {
-      const apiUrl = API_ENDPOINTS.GET_ALL_BOOKS
+      const apiUrl = API_ENDPOINTS.GET_REVIEWS_BY_BOOK_ID+`/${state}`;
   
       const fetchData = async () => {
         try {
@@ -37,7 +32,6 @@ const Home = () => {
       fetchData();
     }, []);
 
-
     if (loading) {
         return <div>Loading...</div>;
       }
@@ -46,14 +40,15 @@ const Home = () => {
         return <div>Error: {error}</div>;
       }
     
+
   return (
     <div>
-        <h2>Book list</h2>
-        {data.map((book) => (
-            <Book key={book.id} id={book.id} name={book.name} author={book.author} rate={book.rate} handleClick={handleClick}/>
+        <h2>Review list</h2>
+        {data.map((review) => (
+            <Review key={review.id} user={review.user} review={review.review} rate={review.rate}/>
         ))}
     </div>
   )
 }
 
-export default Home
+export default BookReview
