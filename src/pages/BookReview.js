@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react'
 import API_ENDPOINTS from '../constants/endpoint';
 import { useLocation } from 'react-router-dom';
 import Review from '../comp/review/Review';
+import ReviewForm from '../comp/review/ReviewForm';
 
 const BookReview = () => {
     const location = useLocation();
     const { state } = location;
 
+    //fetch reviews data=========================
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    //Review form================================
+    const [display, setDisplay] = useState(false);
   
     useEffect(() => {
       const apiUrl = API_ENDPOINTS.GET_REVIEWS_BY_BOOK_ID+`/${state}`;
@@ -43,7 +48,21 @@ const BookReview = () => {
 
   return (
     <div>
-        <h2>Review list</h2>
+        <div 
+            style={{
+                display:'flex',
+                justifyContent:'space-between',
+                backgroundColor:'lightgrey',
+                width:'80%',
+            }}
+        >
+            <h2>Review list</h2>
+            {!display?<div style={{backgroundColor:'lightcyan',cursor:'pointer'}} onClick={()=>setDisplay(true)}>
+                <h2>+</h2>
+            </div>:''}
+        </div>
+        {display?<ReviewForm bookId={state} setDisplay={setDisplay}></ReviewForm>:''}
+
         {data.map((review) => (
             <Review key={review.id} user={review.user} review={review.review} rate={review.rate}/>
         ))}
