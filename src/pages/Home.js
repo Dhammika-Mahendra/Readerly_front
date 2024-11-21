@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Book from '../comp/Book';
 import API_ENDPOINTS from '../constants/endpoint'
 import { useNavigate } from 'react-router-dom';
+import BookHeader from '../comp/BookHeader';
 
 const Home = () => {
 
@@ -48,7 +49,7 @@ const Home = () => {
     
   return (
     <div>
-        <h2>Book list</h2>
+        <BookHeader></BookHeader>
         {data.map((book) => (
             <Book key={book.id} id={book.id} name={book.name} author={book.author} rate={book.rate} handleClick={handleClick}/>
         ))}

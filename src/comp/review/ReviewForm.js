@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import API_ENDPOINTS from '../../constants/endpoint';
+import { extractIdFromToken } from '../../constants/validation';
 
 const ReviewForm = ({editMode,setDisplay,setEditMode,bookId,userId,rate,review,reviewId}) => {
 
@@ -19,10 +20,16 @@ const ReviewForm = ({editMode,setDisplay,setEditMode,bookId,userId,rate,review,r
       rate: rateData,
       review: reviewData,
     }
+    const uId=extractIdFromToken()
+    if(uId==null){
+      console.log('please login first');
+      return;
+    }
     if(!editMode){
       formData.bookId= bookId;
-      formData.userId= "673dbb54384db807afd147dc";
+      formData.userId= uId;
     }
+
     e.preventDefault();
     try {
       const response = await fetch(apiUrl, {

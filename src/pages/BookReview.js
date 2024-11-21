@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import Review from '../comp/review/Review';
 import ReviewForm from '../comp/review/ReviewForm';
 import Confirm from '../comp/review/Confirm';
+import { extractIdFromToken } from '../constants/validation';
 
 const BookReview = () => {
     const location = useLocation();
@@ -26,6 +27,9 @@ const BookReview = () => {
     const [editReview, setEditReview] = useState("");
     const [editRate, setEditRate] = useState("");
     const [editMode, setEditMode] = useState(false);
+
+    //login check===============================
+    const [uId, setUId] = useState(extractIdFromToken());
   
     useEffect(() => {
       const apiUrl = API_ENDPOINTS.GET_REVIEWS_BY_BOOK_ID+`/${state}`;
@@ -92,7 +96,7 @@ const BookReview = () => {
         {display&&editMode?<ReviewForm editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={editRate} review={editReview} reviewId={editId}></ReviewForm>:''}
 
         {data.map((review) => (
-            <Review key={review.id} id={review.id} user={review.user} review={review.review} rate={review.rate} initDelete={initReviewDelete} initEdit={initEdit}/>
+            <Review key={review.id} id={review.id} userId={review.userId} uId={uId} review={review.review} rate={review.rate} initDelete={initReviewDelete} initEdit={initEdit}/>
         ))}
 
         {deleteConfirmDisplay?<Confirm id={deleteId} setDeleteConfirmDisplay={setDeleteConfirmDisplay}></Confirm>:''}
