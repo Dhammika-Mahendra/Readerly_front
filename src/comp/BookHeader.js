@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import API_ENDPOINTS from '../constants/endpoint';
 import { extractIdFromToken } from '../constants/validation';
+import { Button, TextField } from '@mui/material';
 
 const BookHeader = ({data,setFilteredData}) => {
 
@@ -25,10 +26,9 @@ const BookHeader = ({data,setFilteredData}) => {
     const apiUrl = API_ENDPOINTS.POST_BOOK;
 
     let formData = {
-      id:0,
       name: bookName,
       author: author,
-      genere: genere,
+      genre: genere,
       rate :""
     }
 
@@ -72,11 +72,33 @@ const BookHeader = ({data,setFilteredData}) => {
   },[searchdata])
 
   return (
-    <div>
-    <input type="text" placeholder="Search a book" onChange={(e)=>setSearchData(e.target.value)}/>
-    <div style={{backgroundColor:'lightcoral', cursor:'pointer'}} onClick={()=>setDisplay(true)}>
-      <h2>+</h2>
-    </div>
+    <div 
+      style={{
+        display:'flex',
+        justifyContent:'flex-start',
+        flexDirection:'column',
+        alignItems: 'center',
+        width:'100%',
+        position:'fixed',
+        top:'50px',
+        margin:0,
+        backgroundColor:'lightgreen'
+      }}
+    >
+        <div 
+          style={{
+            display:'flex',
+            justifyContent:'flex-end',
+            alignSelf:'flex-end'
+          }}
+        >
+
+        <TextField type="text" size="small" label="Search by Title / Author" onChange={(e)=>setSearchData(e.target.value)} sx={{width:'250px'}}></TextField>
+        <Button variant="text" onClick={()=>setDisplay(true)}>Text</Button>
+
+        </div>
+
+
     {display?  
       <div>
       <div>

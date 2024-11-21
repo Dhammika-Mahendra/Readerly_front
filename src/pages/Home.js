@@ -49,7 +49,12 @@ const Home = () => {
       }
     
   return (
-    <div>
+    <div 
+      style={{
+        marginTop:'120px'
+      }}
+    >
+
         <BookHeader setFilteredData={setFilteredData} data={data}></BookHeader>
         {filteredData.map((book) => (
             <Book key={book.id} id={book.id} name={book.name} author={book.author} rate={book.rate} handleClick={handleClick}/>
