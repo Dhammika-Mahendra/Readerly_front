@@ -4,6 +4,7 @@ const API_ENDPOINTS = {
   GET_ALL_BOOKS: `${BASE_URL}/books`,
   GET_REVIEWS_BY_BOOK_ID:`${BASE_URL}/reviews/book`,
   POST_REVIEW: `${BASE_URL}/reviews`,
+  POST_BOOK: `${BASE_URL}/books`,
 };
 
 export default API_ENDPOINTS;
