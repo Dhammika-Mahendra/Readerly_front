@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import API_ENDPOINTS from '../constants/endpoint';
 import { extractIdFromToken } from '../constants/validation';
+import { Button, TextField, Typography } from '@mui/material';
 
 const Auth = () => {
 
@@ -57,18 +58,43 @@ const Auth = () => {
  }
 
   return (
-    <div>
-        <div>
-            <h2>{mode==="login"?"Login":"Register"}</h2>
-            <input type="text" placeholder="Email" onChange={(e)=>setEmail(e.target.value)}/>
-            {mode==="signup"?<input type="text" placeholder="User Name" onChange={(e)=>setUserName(e.target.value)}/>:''}
-            <input type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
-        </div>
-        <div>
-            <button onClick={handleSubmit}>{mode==="login"?"Login":"Signup"}</button>
-            <button onClick={handleClear}>Clear</button>
-            {mode==="login"?<p style={{cursor:'pointer'}} onClick={()=>setMode("signup")}>I have no account</p>:<p style={{cursor:'pointer'}} onClick={()=>setMode("login")}>I already have an account</p>}
-        </div>
+      <div
+        style={{
+          display:'flex',
+          flexDirection:'column',
+          alignItems:'center',
+          justifyContent:'center',
+          width:'100%',
+          height:'100vh',
+        }} 
+      >
+          <h2>{mode==="login"?"Login":"Register"}</h2>
+          <div
+            style={{
+              display:'flex',
+              flexDirection:'column',
+              alignItems:'center',
+              justifyContent:'space-between',
+              marginBottom:'20px',
+            }}
+          >
+              <TextField sx={{mt:'20px'}} type="text" value={Email} label="Email" onChange={(e)=>setEmail(e.target.value)}/>
+              {mode==="signup"?<TextField sx={{mt:'20px'}} type="text" value={userName} label="User Name" onChange={(e)=>setUserName(e.target.value)}/>:''}
+              <TextField sx={{mt:'20px'}} type="password" value={Password} label="Password" onChange={(e)=>setPassword(e.target.value)}/>
+          </div>
+          <div
+            style={{
+              display:'flex',
+              alignItems:'center',
+              justifyContent:'space-between',
+
+            }} 
+          >
+              <Button sx={{ml:'10px',mr:'10px'}} variant='contained' onClick={handleSubmit}>{mode==="login"?"Login":"Signup"}</Button>
+              <Button sx={{ml:'10px',mr:'10px'}} variant='outlined' onClick={handleClear}>Clear</Button>
+          </div>
+
+             {mode==="login"? <Typography style={{cursor:'pointer',marginTop:'20px',textDecoration:'underline'}} onClick={()=>setMode("signup")}>No account yet?</Typography>:<Typography style={{cursor:'pointer',marginTop:'20px',textDecoration:'underline'}} onClick={()=>setMode("login")}>Already have an account?</Typography>}
     </div>
   )
 }

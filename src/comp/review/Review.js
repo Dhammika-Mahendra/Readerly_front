@@ -3,6 +3,7 @@ import { Colors } from '../../constants/colors'
 import { IconButton, Typography } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import StarIcon from '@mui/icons-material/Star';
 
 const Review = ({id,userId,uId,review,rate,initDelete,initEdit}) => {
 
@@ -39,6 +40,11 @@ const Review = ({id,userId,uId,review,rate,initDelete,initEdit}) => {
                     <DeleteForeverIcon />
                 </IconButton>
         </div>:''}
+        <div style={{display:'flex',position:'absolute',bottom:'5px',right:'15px'}}>
+            {Array.from({ length: rate }).map((_, index) => (
+                <StarIcon key={index} sx={{width:'15px',height:'15px'}}/>
+            ))}
+        </div>
     </div>
   )
 }
