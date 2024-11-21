@@ -1,6 +1,14 @@
-#steps to run this project
+# React Project README
 
-1.Clone the repository
-2.Go to the root directory
-3.Install all npm files with npm install
-4.Run the project with npm start
+## Setup
+
+### Prerequisites
+- Node.js
+- npm
+
+### Clone and Run
+
+1. Create new React project
+```bash
+npx create-react-app my-project
+cd my-project
