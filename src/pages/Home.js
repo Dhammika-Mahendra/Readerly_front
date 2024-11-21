@@ -14,6 +14,7 @@ const Home = () => {
   
     
     const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState(data);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
   
@@ -49,8 +50,8 @@ const Home = () => {
     
   return (
     <div>
-        <BookHeader></BookHeader>
-        {data.map((book) => (
+        <BookHeader setFilteredData={setFilteredData} data={data}></BookHeader>
+        {filteredData.map((book) => (
             <Book key={book.id} id={book.id} name={book.name} author={book.author} rate={book.rate} handleClick={handleClick}/>
         ))}
     </div>

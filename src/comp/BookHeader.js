@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import API_ENDPOINTS from '../constants/endpoint';
+import { extractIdFromToken } from '../constants/validation';
 
-const BookHeader = () => {
+const BookHeader = ({data,setFilteredData}) => {
 
   const [display, setDisplay] = useState(false);
 
   const [bookName, setBookName] = useState("");
   const [author, setAuthor] = useState("");
   const [genere, setGenere] = useState("");
+
+  const [searchdata, setSearchData] = useState("");
 
   const handleCancel=()=>{
     setDisplay(false);
@@ -27,6 +30,11 @@ const BookHeader = () => {
       author: author,
       genere: genere,
       rate :""
+    }
+
+    if(extractIdFromToken()==null){
+      console.log('please login first');
+      return;
     }
 
     e.preventDefault();
@@ -51,9 +59,21 @@ const BookHeader = () => {
 
   };
 
+  const filterData = () => {
+    setFilteredData(data.filter(
+      (book)=>
+        book.name.toLowerCase().includes(searchdata.toLowerCase())||
+        book.author.toLowerCase().includes(searchdata.toLowerCase())
+      ));
+  }
+
+  useEffect(()=>{
+    filterData();
+  },[searchdata])
+
   return (
     <div>
-    <input type="text" placeholder="Search a book"/>
+    <input type="text" placeholder="Search a book" onChange={(e)=>setSearchData(e.target.value)}/>
     <div style={{backgroundColor:'lightcoral', cursor:'pointer'}} onClick={()=>setDisplay(true)}>
       <h2>+</h2>
     </div>
