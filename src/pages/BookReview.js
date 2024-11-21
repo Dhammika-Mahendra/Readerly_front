@@ -5,6 +5,9 @@ import Review from '../comp/review/Review';
 import ReviewForm from '../comp/review/ReviewForm';
 import Confirm from '../comp/review/Confirm';
 import { extractIdFromToken } from '../constants/validation';
+import { IconButton, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { Colors } from '../constants/colors';
 
 const BookReview = () => {
     const location = useLocation();
@@ -79,27 +82,50 @@ const BookReview = () => {
 
   return (
     <div>
-        <div 
-            style={{
-                display:'flex',
-                justifyContent:'space-between',
-                backgroundColor:'lightgrey',
-                width:'80%',
-            }}
-        >
-            <h2>Review list</h2>
-            {!display?<div style={{backgroundColor:'lightcyan',cursor:'pointer'}} onClick={()=>setDisplay(true)}>
-                <h2>+</h2>
-            </div>:''}
+        <div style={{marginTop:'120px'}}>
+          {data.map((review) => (
+              <Review key={review.id} id={review.id} userId={review.userId} uId={uId} review={review.review}  rate={review.rate} initDelete={initReviewDelete} initEdit={initEdit}/>
+          ))}
         </div>
-        {display&&!editMode?<ReviewForm editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={0} review="" reviewId=""></ReviewForm>:''}
-        {display&&editMode?<ReviewForm editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={editRate} review={editReview} reviewId={editId}></ReviewForm>:''}
-
-        {data.map((review) => (
-            <Review key={review.id} id={review.id} userId={review.userId} uId={uId} review={review.review} rate={review.rate} initDelete={initReviewDelete} initEdit={initEdit}/>
-        ))}
-
+        
         {deleteConfirmDisplay?<Confirm id={deleteId} setDeleteConfirmDisplay={setDeleteConfirmDisplay}></Confirm>:''}
+
+        {display?
+            <div 
+                style={{
+                    display:'flex',
+                    flexDirection:'column',
+                    justifyContent:'space-between',
+                    backgroundColor:Colors.HEADER_BG_BOTTOM,
+                    position:'fixed',
+                    width:'100%',
+                    top:'50px',
+                    padding:'10px 40px 10px'
+                }}
+            >
+            {!editMode?<ReviewForm editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={0} review="" reviewId=""></ReviewForm>:''}
+            {editMode?<ReviewForm editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={editRate} review={editReview} reviewId={editId}></ReviewForm>:''}
+            </div>:''
+        }
+
+        {!display?
+            <div
+              style={{
+                display:'flex',
+                flexDirection:'row',
+                justifyContent:'space-between',
+                backgroundColor:Colors.HEADER_BG_BOTTOM,
+                position:'fixed',
+                width:'100%',
+                top:'50px'
+            }}
+            >
+                <Typography variant='p'>Review list for this book</Typography>
+                <IconButton onClick={()=>setDisplay(true)}>
+                    <AddIcon />
+                </IconButton>  
+            </div>:''
+        }
     </div>
   )
 }

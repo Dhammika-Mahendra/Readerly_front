@@ -1,4 +1,8 @@
 import React from 'react'
+import { Colors } from '../../constants/colors'
+import { IconButton, Typography } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const Review = ({id,userId,uId,review,rate,initDelete,initEdit}) => {
 
@@ -6,19 +10,34 @@ const Review = ({id,userId,uId,review,rate,initDelete,initEdit}) => {
   return (
     <div
         style={{
-            border: '1px solid black',
+            borderBottomWidth:'1px',
+            borderBottomStyle:'solid',
+            borderBottomColor:Colors.DIVIDER,
             padding: '10px',
-            margin: '10px',
-            backgroundColor: 'lightgray'
+            margin: '10px 10px 10px 10px',
+            position:'relative'
         }}
     >
         <div>
-            <p>{review}</p>
-            <p>{rate}</p>
+            <p>{`by ${userId}`}</p>
+            <Typography variant='p'>{review}</Typography>
         </div>
-        {userId===uId?<div style={{cursor:'pointer'}}>
-            <h4 onClick={()=>initDelete(id)}>x</h4>
-            <h4 onClick={()=>initEdit(id,review,rate)}>/</h4>
+        {userId===uId?
+            <div 
+                style={{
+                    cursor:'pointer',
+                    position :'absolute',
+                    top:'5px',
+                    right:'2px'
+
+                }}
+            >
+                <IconButton onClick={()=>initEdit(id,review,rate)}>
+                    <EditIcon />
+                </IconButton>
+                <IconButton onClick={()=>initDelete(id)}>
+                    <DeleteForeverIcon />
+                </IconButton>
         </div>:''}
     </div>
   )

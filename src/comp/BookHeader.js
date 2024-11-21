@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import API_ENDPOINTS from '../constants/endpoint';
 import { extractIdFromToken } from '../constants/validation';
-import { Button, TextField } from '@mui/material';
+import { Button, IconButton, TextField } from '@mui/material';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import { Colors } from '../constants/colors';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import CloseIcon from '@mui/icons-material/Close';
 
 const BookHeader = ({data,setFilteredData}) => {
 
@@ -82,33 +86,47 @@ const BookHeader = ({data,setFilteredData}) => {
         position:'fixed',
         top:'50px',
         margin:0,
-        backgroundColor:'lightgreen'
+        backgroundColor:Colors.HEADER_BG_BOTTOM,
       }}
     >
-        <div 
-          style={{
-            display:'flex',
-            justifyContent:'flex-end',
-            alignSelf:'flex-end'
-          }}
-        >
-
-        <TextField type="text" size="small" label="Search by Title / Author" onChange={(e)=>setSearchData(e.target.value)} sx={{width:'250px'}}></TextField>
-        <Button variant="text" onClick={()=>setDisplay(true)}>Text</Button>
-
-        </div>
-
 
     {display?  
-      <div>
-      <div>
-        <input type="text" placeholder="book name" onChange={(e)=>setBookName(e.target.value)}/>
-        <input type="text" placeholder="author" onChange={(e)=>setAuthor(e.target.value)}/>
-        <input type="text" placeholder="genere" onChange={(e)=>setGenere(e.target.value)}/>
+      <div style={{display:'flex',justifyContent:'space-around',alignItems:'center'}}>
+      <div
+        style={{
+          display:'flex',
+          alignContent:'center',
+          padding:'10px 40px 10px'
+        }} 
+      >
+        <TextField sx={{flex:'2',ml:'5px',mr:'5px'}} type="text" size="small" label="Title" onChange={(e)=>setBookName(e.target.value)}/>
+        <TextField sx={{flex:'2',ml:'5px',mr:'5px'}} type="text" size="small" label="Author" onChange={(e)=>setAuthor(e.target.value)}/>
+        <TextField sx={{flex:'1',ml:'5px',mr:'5px'}} type="text" size="small" label="Genere" onChange={(e)=>setGenere(e.target.value)}/>
       </div>
-        <button onClick={handleSubmit}>Submit</button>
-        <button onClick={handleCancel}>Cancel</button>
-      </div>:''}
+          <IconButton onClick={handleSubmit} color='primary'>
+            <TaskAltIcon />
+          </IconButton>
+          <IconButton onClick={handleCancel}>
+            <CloseIcon></CloseIcon>
+          </IconButton>
+      </div>:
+
+      <div 
+        style={{
+          display:'flex',
+          justifyContent:'flex-end',
+          alignSelf:'flex-end',
+          padding:'10px 40px 10px',
+        }}
+      >
+    
+          <TextField type="text" size="small" label="Search by Title / Author" onChange={(e)=>setSearchData(e.target.value)} sx={{width:'250px'}}></TextField>
+          <IconButton aria-label="delete" onClick={()=>setDisplay(true)}>
+            <PostAddIcon />
+          </IconButton>
+
+        </div>
+    }
   </div>
   )
 }

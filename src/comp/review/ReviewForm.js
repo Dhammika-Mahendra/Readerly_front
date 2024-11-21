@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import API_ENDPOINTS from '../../constants/endpoint';
 import { extractIdFromToken } from '../../constants/validation';
+import { IconButton, Rating, TextField } from '@mui/material';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import CloseIcon from '@mui/icons-material/Close';
+import { Colors } from '../../constants/colors';
 
 const ReviewForm = ({editMode,setDisplay,setEditMode,bookId,userId,rate,review,reviewId}) => {
 
@@ -53,15 +57,44 @@ const ReviewForm = ({editMode,setDisplay,setEditMode,bookId,userId,rate,review,r
   };
 
   return (
-    <div>
-      <div>
-        <h5>Write your review here</h5>
-        <input type="text"  value={reviewData} placeholder="Your name" onChange={(e)=>setReviewData(e.target.value)}/>
-        <input type="number" value={rateData} placeholder="Rate" onChange={(e)=>setRateData(e.target.value)}/>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        width:'100%',
+        backgroundColor:Colors.HEADER_BG_BOTTOM,
+      }}
+    >
+      <div 
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          width:'70%',
+        }}
+      >
+        <TextField type="text"  value={reviewData} label="Your review" onChange={(e)=>setReviewData(e.target.value)} multiline sx={{width:'100%'}} rows={5}/>
+      <div style={{display:'flex',alignItems:'center',alignSelf:'start'}}>
+          <p style={{marginRight:'20px'}}>Rate this book</p>
+          <Rating
+              name="Rate"
+              value={rateData}
+              onChange={(event, newValue) => {
+                setRateData(newValue);
+              }}
+            />
       </div>
-      <div>
-        <button onClick={handleSubmit}>Submit</button>
-        <button onClick={handleCancel}>Cancel</button>
+      <div style={{display:'flex',alignSelf:'end',paddingTop:'10px'}}>
+        <IconButton onClick={handleSubmit}>
+          <TaskAltIcon></TaskAltIcon>
+        </IconButton>
+        <IconButton onClick={handleCancel}>
+          <CloseIcon></CloseIcon>
+        </IconButton>
+      </div>
       </div>
     </div>
   )

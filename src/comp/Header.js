@@ -1,10 +1,11 @@
+import { Typography } from '@mui/material'
 import React, { useState } from 'react'
-
+import { Colors } from '../constants/colors'
 function Header() {
   return (
     <div 
       style={{
-        backgroundColor: 'lightblue',
+        backgroundColor: Colors.HEADER_BG,
         position: 'fixed',
         width: '100%',
         height:'50px',
@@ -12,9 +13,23 @@ function Header() {
         left :0,
         margin: '0px',
         padding: '0px',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingLeft:'20px'
       }}
     >
-      <h2>Header </h2>
+      <div 
+        style={{
+          width:'30px',
+          height:'30px',
+          backgroundImage: `url(/ico.png)`,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+      </div>
+      <Typography variant="h5" style={{paddingLeft: '10px'}}>Readerly</Typography>
     </div>
   )
 }
