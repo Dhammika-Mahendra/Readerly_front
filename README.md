@@ -51,24 +51,12 @@ The application will open automatically in your default browser at http://localh
 ---
 
 ### Backend API Configuration
-The base URL for the backend API can be modified in the following file:
+The base URL for the backend API can be adjusted according to the backend running at the other end if needed form the following file:
 
 
 src/constants/endpoints.js
 
 
-Update the BASE_URL constant in this file to point to your desired backend API endpoint.
 
 ---
 
-### Contributing
-Feel free to contribute to this project by forking the repository, creating a new branch, and submitting a pull request.
-
----
-
-### License
-This project is licensed under [Insert License Name]. See the LICENSE file for details.
-
----
-
-For additional questions, please reach out to [Your Contact Information].
