@@ -8,6 +8,7 @@ import { extractIdFromToken } from '../constants/validation';
 import { IconButton, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Colors } from '../constants/colors';
+import LoginWarn from '../comp/LoginWarn';
 
 const BookReview = () => {
     const location = useLocation();
@@ -33,25 +34,26 @@ const BookReview = () => {
 
     //login check===============================
     const [uId, setUId] = useState(extractIdFromToken());
+    const [logDisplay, setLogDisplay] = useState(false);
   
-    useEffect(() => {
+    const fetchData = async () => {
       const apiUrl = API_ENDPOINTS.GET_REVIEWS_BY_BOOK_ID+`/${state}`;
-  
-      const fetchData = async () => {
-        try {
-          const response = await fetch(apiUrl);
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          const result = await response.json();
-          setData(result);
-        } catch (err) {
-          setError(err.message);
-        } finally {
-          setLoading(false);
+      
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-      };
-  
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    useEffect(() => {
       fetchData();
     }, []);
 
@@ -84,7 +86,7 @@ const BookReview = () => {
     <div>
         <div style={{marginTop:'120px'}}>
           {data.map((review) => (
-              <Review key={review.id} id={review.id} userId={review.userId} uId={uId} review={review.review}  rate={review.rate} initDelete={initReviewDelete} initEdit={initEdit}/>
+              <Review key={review.id} user={review.user} id={review.id} userId={review.userId} uId={uId} review={review.review} date={review.date} rate={review.rate} initDelete={initReviewDelete} initEdit={initEdit}/>
           ))}
         </div>
         
@@ -103,8 +105,8 @@ const BookReview = () => {
                     padding:'10px 40px 10px'
                 }}
             >
-            {!editMode?<ReviewForm editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={0} review="" reviewId=""></ReviewForm>:''}
-            {editMode?<ReviewForm editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={editRate} review={editReview} reviewId={editId}></ReviewForm>:''}
+            {!editMode?<ReviewForm refetch={fetchData} setLogDisplay={setLogDisplay} editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={0} review="" reviewId=""></ReviewForm>:''}
+            {editMode?<ReviewForm refetch={fetchData} setLogDisplay={setLogDisplay} editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={editRate} review={editReview} reviewId={editId}></ReviewForm>:''}
             </div>:''
         }
 
@@ -121,11 +123,12 @@ const BookReview = () => {
             }}
             >
                 <Typography variant='p'>Review list for this book</Typography>
-                <IconButton onClick={()=>setDisplay(true)}>
+                <IconButton onClick={()=>setDisplay(true)} size='large'>
                     <AddIcon />
                 </IconButton>  
             </div>:''
         }
+        {logDisplay?<LoginWarn setDisplay={setLogDisplay}></LoginWarn>:''}
     </div>
   )
 }

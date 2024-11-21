@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import API_ENDPOINTS from '../constants/endpoint';
-import { extractIdFromToken } from '../constants/validation';
+import { extractIdFromToken, storeToken } from '../constants/validation';
 import { Button, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
+  const navigate = useNavigate();
 
  const [mode, setMode] = useState("login");//login or signup
 
@@ -20,7 +22,6 @@ const Auth = () => {
       password: Password,
     }
     if(mode==="signup"){
-      formData.id= "";
       formData.userName= userName;
     }
 
@@ -32,16 +33,17 @@ const Auth = () => {
           "Content-Type": "application/json", 
         },
         body: JSON.stringify(formData), 
-      })
+      });
 
-      ;
+      if (response.status === 201) {
+        setMode("login");
+      }
 
-      const responseJson = await response.json();
-
-      if (responseJson.token) {
-        localStorage.removeItem("readerlyJWTstorageitem");
-        localStorage.setItem("readerlyJWTstorageitem", responseJson.token);
-        console.log(extractIdFromToken());
+      const data = await response.json();
+      console.log(data);
+      if(data){
+        storeToken(data.token);
+        navigate('/');
       }
 
       setResponseMessage(`Success`);

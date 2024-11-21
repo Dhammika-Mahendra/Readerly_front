@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import StarIcon from '@mui/icons-material/Star';
 
-const Review = ({id,userId,uId,review,rate,initDelete,initEdit}) => {
+const Review = ({id,userId,uId,user,review,rate,initDelete,initEdit,date}) => {
 
 
   return (
@@ -20,7 +20,8 @@ const Review = ({id,userId,uId,review,rate,initDelete,initEdit}) => {
         }}
     >
         <div>
-            <p>{`by ${userId}`}</p>
+            <p>{`by ${user}`}</p>
+            <p>{`on ${date}`}</p>
             <Typography variant='p'>{review}</Typography>
         </div>
         {userId===uId?

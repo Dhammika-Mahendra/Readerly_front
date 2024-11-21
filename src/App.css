@@ -17,4 +17,6 @@
   color: white;
 }
 
-
+Button{
+  cursor: pointer;
+}

@@ -6,11 +6,12 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import CloseIcon from '@mui/icons-material/Close';
 import { Colors } from '../../constants/colors';
 
-const ReviewForm = ({editMode,setDisplay,setEditMode,bookId,userId,rate,review,reviewId}) => {
+const ReviewForm = ({editMode,setDisplay,setEditMode,bookId,userId,rate,review,reviewId,setLogDisplay,refetch}) => {
 
   const [rateData, setRateData] = useState(rate);
   const [reviewData, setReviewData] = useState(review);
   const [responseMessage, setResponseMessage] = useState("");
+
 
   const handleCancel = () => {
     setDisplay(false);
@@ -26,7 +27,7 @@ const ReviewForm = ({editMode,setDisplay,setEditMode,bookId,userId,rate,review,r
     }
     const uId=extractIdFromToken()
     if(uId==null){
-      console.log('please login first');
+      setLogDisplay(true);
       return;
     }
     if(!editMode){
@@ -48,12 +49,16 @@ const ReviewForm = ({editMode,setDisplay,setEditMode,bookId,userId,rate,review,r
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
+      if(response.status === 201){
+        refetch();
+      }
+
       setResponseMessage(`Success`);
 
     } catch (err) {
       setResponseMessage(`Error`);
     }
-
+    setDisplay(false);
   };
 
   return (

@@ -6,8 +6,9 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import { Colors } from '../constants/colors';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import CloseIcon from '@mui/icons-material/Close';
+import LoginWarn from './LoginWarn';
 
-const BookHeader = ({data,setFilteredData}) => {
+const BookHeader = ({data,setFilteredData,refetch}) => {
 
   const [display, setDisplay] = useState(false);
 
@@ -25,6 +26,7 @@ const BookHeader = ({data,setFilteredData}) => {
   }
 
   const [responseMessage, setResponseMessage] = useState("");
+  const [logDisplay, setLogDisplay] = useState(false);
 
   const handleSubmit = async (e) => {
     const apiUrl = API_ENDPOINTS.POST_BOOK;
@@ -37,7 +39,7 @@ const BookHeader = ({data,setFilteredData}) => {
     }
 
     if(extractIdFromToken()==null){
-      console.log('please login first');
+      setLogDisplay(true);
       return;
     }
 
@@ -51,8 +53,8 @@ const BookHeader = ({data,setFilteredData}) => {
         body: JSON.stringify(formData), 
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      if (response.status === 201) {
+        refetch();
       }
 
       setResponseMessage(`Success`);
@@ -127,6 +129,7 @@ const BookHeader = ({data,setFilteredData}) => {
 
         </div>
     }
+    {logDisplay?<LoginWarn display={logDisplay} setDisplay={setLogDisplay}></LoginWarn>:''}
   </div>
   )
 }
