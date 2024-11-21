@@ -1,25 +1,32 @@
 import React, { useState } from 'react'
 import API_ENDPOINTS from '../../constants/endpoint';
 
-const ReviewForm = ({setDisplay,bookId,userId}) => {
+const ReviewForm = ({editMode,setDisplay,setEditMode,bookId,userId,rate,review,reviewId}) => {
 
-  const [rate, setRate] = useState(0);
-  const [review, setReview] = useState("");
+  const [rateData, setRateData] = useState(rate);
+  const [reviewData, setReviewData] = useState(review);
   const [responseMessage, setResponseMessage] = useState("");
 
-  const handleSubmit = async (e) => {
-    const apiUrl = API_ENDPOINTS.POST_REVIEW;
+  const handleCancel = () => {
+    setDisplay(false);
+    setEditMode(false);
+  }
 
-    const formData = {
-      bookId: bookId,
-      userId: "673dbb54384db807afd147dc",
-      rate: rate,
-      review: review,
+  const handleSubmit = async (e) => {
+    const apiUrl = !editMode?API_ENDPOINTS.POST_REVIEW:API_ENDPOINTS.POST_REVIEW+`/${reviewId}`;
+
+    let formData = {
+      rate: rateData,
+      review: reviewData,
+    }
+    if(!editMode){
+      formData.bookId= bookId;
+      formData.userId= "673dbb54384db807afd147dc";
     }
     e.preventDefault();
     try {
       const response = await fetch(apiUrl, {
-        method: "POST", 
+        method: editMode?"PUT":"POST", 
         headers: {
           "Content-Type": "application/json", 
         },
@@ -42,12 +49,12 @@ const ReviewForm = ({setDisplay,bookId,userId}) => {
     <div>
       <div>
         <h5>Write your review here</h5>
-        <input type="text" placeholder="Your name" onChange={(e)=>setReview(e.target.value)}/>
-        <input type="number" placeholder="Rate" onChange={(e)=>setRate(e.target.value)}/>
+        <input type="text"  value={reviewData} placeholder="Your name" onChange={(e)=>setReviewData(e.target.value)}/>
+        <input type="number" value={rateData} placeholder="Rate" onChange={(e)=>setRateData(e.target.value)}/>
       </div>
       <div>
         <button onClick={handleSubmit}>Submit</button>
-        <button onClick={()=>setDisplay(false)}>Cancel</button>
+        <button onClick={handleCancel}>Cancel</button>
       </div>
     </div>
   )

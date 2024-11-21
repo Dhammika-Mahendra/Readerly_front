@@ -20,6 +20,12 @@ const BookReview = () => {
     //Delete review==============================
     const [deleteId, setDeleteId] = useState("");
     const [deleteConfirmDisplay, setDeleteConfirmDisplay] = useState(false);
+
+    //Edit review================================
+    const [editId, setEditId] = useState("");
+    const [editReview, setEditReview] = useState("");
+    const [editRate, setEditRate] = useState("");
+    const [editMode, setEditMode] = useState(false);
   
     useEffect(() => {
       const apiUrl = API_ENDPOINTS.GET_REVIEWS_BY_BOOK_ID+`/${state}`;
@@ -48,6 +54,15 @@ const BookReview = () => {
         setDeleteConfirmDisplay(true);
     }
 
+    //review edit-------------------------------
+    const initEdit = (id,review,rate) => {
+        setEditId(id);
+        setEditReview(review);
+        setEditRate(rate);
+        setEditMode(true);
+        setDisplay(true);
+    }
+
     if (loading) {
         return <div>Loading...</div>;
       }
@@ -55,6 +70,7 @@ const BookReview = () => {
       if (error) {
         return <div>Error: {error}</div>;
       }
+
     
 
   return (
@@ -72,10 +88,11 @@ const BookReview = () => {
                 <h2>+</h2>
             </div>:''}
         </div>
-        {display?<ReviewForm bookId={state} setDisplay={setDisplay}></ReviewForm>:''}
+        {display&&!editMode?<ReviewForm editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={0} review="" reviewId=""></ReviewForm>:''}
+        {display&&editMode?<ReviewForm editMode={editMode} bookId={state} setDisplay={setDisplay} setEditMode={setEditMode} rate={editRate} review={editReview} reviewId={editId}></ReviewForm>:''}
 
         {data.map((review) => (
-            <Review key={review.id} id={review.id} user={review.user} review={review.review} rate={review.rate} initDelete={initReviewDelete}/>
+            <Review key={review.id} id={review.id} user={review.user} review={review.review} rate={review.rate} initDelete={initReviewDelete} initEdit={initEdit}/>
         ))}
 
         {deleteConfirmDisplay?<Confirm id={deleteId} setDeleteConfirmDisplay={setDeleteConfirmDisplay}></Confirm>:''}
